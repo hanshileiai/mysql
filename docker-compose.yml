@@ -1,0 +1,24 @@
+version: "2"
+services: 
+  # MySQL 5.7  https://hub.docker.com/_/mysql/
+  # ------------ test_site---------------
+  db_test_site: 
+    # image: mysql:5.7
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: db_test_site
+    # 设置 3306 端口映射以便远程连接
+    ports:
+      - 3307:3306
+    # 配置一些环境变量，具体的环境变量细节可以访问上面的网址查看
+    environment:
+      MYSQL_ROOT_PASSWORD: "test123"
+      MYSQL_DATABASE: "test_site"
+      MYSQL_USER: "test"
+      MYSQL_PASSWORD: "test123"
+    restart: always
+    volumes:
+      - ./databases/test_site:/var/lib/mysql
+      - ./mysql.conf.d/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+    mem_limit: 4000m
